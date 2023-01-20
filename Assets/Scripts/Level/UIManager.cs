@@ -13,23 +13,19 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenu;
 
-    private void Awake()
-    {
-        levelManager = FindObjectOfType<LevelManager>();
-    }
-
     private void OnEnable()
     {
-        levelManager.onLevelCompletion += OnLevelCompletion;
+        levelManager.OnLevelCompletion += OnLevelCompletion;
     }
 
     private void OnDisable()
     {
-        levelManager.onLevelCompletion -= OnLevelCompletion;
+        levelManager.OnLevelCompletion -= OnLevelCompletion;
     }
 
     private void Start()
     {
+        levelManager = FindObjectOfType<LevelManager>();
         pauseMenu.SetActive(false);
         quitLevel.SetActive(false);
     }

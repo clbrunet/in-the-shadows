@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     private LevelDataSO defaultLevelData;
     public static LevelDataSO levelData;
     private bool isLevelCompleted = false;
-    public event Action onLevelCompletion;
+    public event Action OnLevelCompletion;
 
     private GameObject firstObject;
     private GameObject secondObject = null;
@@ -101,7 +101,7 @@ public class LevelManager : MonoBehaviour
             {
                 isLevelCompleted = true;
                 StartCoroutine(RotateToTarget(Quaternion.Euler(xBestMatch.target, yBestMatch.target, zBestMatch.target)));
-                onLevelCompletion?.Invoke();
+                OnLevelCompletion?.Invoke();
                 return;
             }
         }

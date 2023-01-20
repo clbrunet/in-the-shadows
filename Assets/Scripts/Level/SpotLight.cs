@@ -7,20 +7,20 @@ public class SpotLight : MonoBehaviour
     private LevelManager levelManager;
     private new Light light;
 
-    private void Awake()
-    {
-        levelManager = FindObjectOfType<LevelManager>();
-        light = GetComponent<Light>();
-    }
-
     private void OnEnable()
     {
-        levelManager.onLevelCompletion += IncreaseRange;
+        levelManager.OnLevelCompletion += IncreaseRange;
     }
 
     private void OnDisable()
     {
-        levelManager.onLevelCompletion -= IncreaseRange;
+        levelManager.OnLevelCompletion -= IncreaseRange;
+    }
+
+    private void Start()
+    {
+        levelManager = FindObjectOfType<LevelManager>();
+        light = GetComponent<Light>();
     }
 
     private IEnumerator Flash()

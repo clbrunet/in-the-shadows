@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    private new Rigidbody rigidbody;
-    private float speed = 2f;
     private new Camera camera;
-    private float mousePositionZ = 4f;
+    private const float mousePositionZ = 4f;
     private Vector3 dragOrigin;
+    private Vector3 dragTarget;
+    private Vector3 dragVelocity = Vector3.zero;
+    private const float dragSmoothTime = 0.1f;
 
-    private void Awake()
+    private void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
         camera = GetComponent<Camera>();
+        dragTarget = transform.position;
     }
 
     private void LateUpdate()
@@ -28,29 +29,8 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Vector3 difference = dragOrigin - current;
-            transform.Translate(difference);
+            dragTarget = transform.position + difference;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        return;
-        if (!Input.GetMouseButton(0))
-        {
-            return;
-        }
-        float x = Input.GetAxis("Mouse X");
-        float y = Input.GetAxis("Mouse Y");
-
-        if (Mathf.Approximately(x, 0f) && Mathf.Approximately(y, 0f))
-        {
-            //rigidbody.drag = Mathf.Min(rigidbody.drag + 1, dragMax);
-        }
-        else
-        {
-            //rigidbody.drag = drag;
-        }
-        Debug.Log(y);
-        rigidbody.AddForce((Vector3.left * x + Vector3.back * y) * speed, ForceMode.Acceleration);
+        transform.position = Vector3.SmoothDamp(transform.position, dragTarget, ref dragVelocity, dragSmoothTime);
     }
 }
