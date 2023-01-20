@@ -100,6 +100,7 @@ public class LevelManager : MonoBehaviour
             if (xBestMatch.difference < 5f && yBestMatch.difference < 5f && zBestMatch.difference < 5f)
             {
                 isLevelCompleted = true;
+                selectedRigidbody.angularVelocity = Vector3.zero;
                 StartCoroutine(RotateToTarget(Quaternion.Euler(xBestMatch.target, yBestMatch.target, zBestMatch.target)));
                 OnLevelCompletion?.Invoke();
                 return;

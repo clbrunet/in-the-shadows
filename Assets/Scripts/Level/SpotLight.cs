@@ -7,6 +7,11 @@ public class SpotLight : MonoBehaviour
     private LevelManager levelManager;
     private new Light light;
 
+    private void Awake()
+    {
+        levelManager = FindObjectOfType<LevelManager>();
+    }
+
     private void OnEnable()
     {
         levelManager.OnLevelCompletion += IncreaseRange;
@@ -19,7 +24,6 @@ public class SpotLight : MonoBehaviour
 
     private void Start()
     {
-        levelManager = FindObjectOfType<LevelManager>();
         light = GetComponent<Light>();
     }
 
