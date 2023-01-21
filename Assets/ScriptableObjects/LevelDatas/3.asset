@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 3
   m_EditorClassIdentifier: 
   number: 3
-  firstObjectData: {fileID: 11400000, guid: f56ca5f75b960f6408dd04e9221db144, type: 2}
-  secondObjectData: {fileID: 11400000, guid: ced0139ee04ccef4f99e0f9ca34f4000, type: 2}
-  secondObjectOffset: {x: 0, y: 0}
+  firstPiece: {fileID: 9179830427099464724, guid: 8afaafab3bcba7a459ea80871a8eef4a, type: 3}
+  secondPiece: {fileID: 7494194221825102711, guid: b8613b734e59cfd438d855d3f90ea61e, type: 3}
+  secondPieceOffset: {x: 0, y: 0}

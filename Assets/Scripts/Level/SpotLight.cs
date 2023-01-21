@@ -13,12 +13,12 @@ public class SpotLight : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelManager.OnLevelCompletion += IncreaseRange;
+        LevelManager.OnLevelCompletion += OnLevelCompletion;
     }
 
     private void OnDisable()
     {
-        LevelManager.OnLevelCompletion -= IncreaseRange;
+        LevelManager.OnLevelCompletion -= OnLevelCompletion;
     }
 
     private IEnumerator Flash()
@@ -42,7 +42,7 @@ public class SpotLight : MonoBehaviour
         }
     }
 
-    private void IncreaseRange()
+    private void OnLevelCompletion()
     {
         StartCoroutine(Flash());
     }

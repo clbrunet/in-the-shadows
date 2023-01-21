@@ -1,6 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public struct TargetRotationsCfg
+{
+    public float[] xs;
+    public float[] ys;
+    public float[] zs;
+}
 
 public class Piece : MonoBehaviour
 {
@@ -81,7 +90,7 @@ public class Piece : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isSelected || !Input.GetMouseButton(0))
+        if (!(isSelected && Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift)))
         {
             return;
         }

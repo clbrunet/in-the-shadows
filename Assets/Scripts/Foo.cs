@@ -12,5 +12,7 @@ public class Foo : MonoBehaviour
     private void Start()
     {
         Debug.Log("start");
+        Debug.Log(transform.eulerAngles);
+        Debug.Log(transform.localEulerAngles);
     }
 }
