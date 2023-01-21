@@ -11,7 +11,7 @@ public class CameraMovement : MonoBehaviour
     private Vector3 dragVelocity = Vector3.zero;
     private const float dragSmoothTime = 0.1f;
 
-    private void Start()
+    private void Awake()
     {
         camera = GetComponent<Camera>();
         dragTarget = transform.position;

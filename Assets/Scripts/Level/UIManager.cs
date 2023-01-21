@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    private LevelManager levelManager;
     [SerializeField]
     private GameObject gameUI;
     [SerializeField]
@@ -13,19 +12,14 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenu;
 
-    private void Awake()
-    {
-        levelManager = FindObjectOfType<LevelManager>();
-    }
-
     private void OnEnable()
     {
-        levelManager.OnLevelCompletion += OnLevelCompletion;
+        LevelManager.OnLevelCompletion += OnLevelCompletion;
     }
 
     private void OnDisable()
     {
-        levelManager.OnLevelCompletion -= OnLevelCompletion;
+        LevelManager.OnLevelCompletion -= OnLevelCompletion;
     }
 
     private void Start()

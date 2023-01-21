@@ -7,7 +7,7 @@ using UnityEngine;
 public class LevelDataSO : ScriptableObject
 {
     public int number;
-    public ObjectDataSO firstObjectData;
-    public ObjectDataSO secondObjectData;
-    public Vector2 secondObjectOffset;
+    public Piece firstPiece;
+    public Piece secondPiece;
+    public Vector2 secondPieceOffset;
 }

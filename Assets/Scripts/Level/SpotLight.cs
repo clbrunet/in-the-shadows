@@ -4,27 +4,21 @@ using UnityEngine;
 
 public class SpotLight : MonoBehaviour
 {
-    private LevelManager levelManager;
     private new Light light;
 
     private void Awake()
     {
-        levelManager = FindObjectOfType<LevelManager>();
+        light = GetComponent<Light>();
     }
 
     private void OnEnable()
     {
-        levelManager.OnLevelCompletion += IncreaseRange;
+        LevelManager.OnLevelCompletion += IncreaseRange;
     }
 
     private void OnDisable()
     {
-        levelManager.OnLevelCompletion -= IncreaseRange;
-    }
-
-    private void Start()
-    {
-        light = GetComponent<Light>();
+        LevelManager.OnLevelCompletion -= IncreaseRange;
     }
 
     private IEnumerator Flash()
