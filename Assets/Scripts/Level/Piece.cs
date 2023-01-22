@@ -18,6 +18,7 @@ public class Piece : MonoBehaviour
     private new Rigidbody rigidbody;
     [SerializeField]
     private TargetRotationsCfg[] targetRotationsCfgs;
+    private const float angleMaxDifference = 5f;
     private Quaternion targetRotation;
 
     private const float angularSpeed = 30f;
@@ -79,7 +80,8 @@ public class Piece : MonoBehaviour
             Match xBestMatch = Match.GetBest(x, targetRotationsCfg.xs);
             Match yBestMatch = Match.GetBest(y, targetRotationsCfg.ys);
             Match zBestMatch = Match.GetBest(z, targetRotationsCfg.zs);
-            if (xBestMatch.difference < 5f && yBestMatch.difference < 5f && zBestMatch.difference < 5f)
+            if ((xBestMatch.difference < angleMaxDifference && yBestMatch.difference < angleMaxDifference && zBestMatch.difference < angleMaxDifference)
+                || xBestMatch.difference + yBestMatch.difference + zBestMatch.difference < angleMaxDifference * 2)
             {
                 targetRotation = Quaternion.Euler(xBestMatch.target, yBestMatch.target, zBestMatch.target);
                 return true;
@@ -90,7 +92,12 @@ public class Piece : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!(isSelected && Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift)))
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            rigidbody.angularVelocity = Vector3.zero;
+            return;
+        }
+        if (!(isSelected && Input.GetMouseButton(0)))
         {
             return;
         }

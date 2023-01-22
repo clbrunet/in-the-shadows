@@ -50,5 +50,6 @@ public class UIManager : MonoBehaviour
     public void QuitLevel()
     {
         SceneManager.LoadScene("LevelSelection");
+        Time.timeScale = 1f;
     }
 }

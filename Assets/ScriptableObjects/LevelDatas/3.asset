@@ -15,4 +15,4 @@ MonoBehaviour:
   number: 3
   firstPiece: {fileID: 9179830427099464724, guid: 8afaafab3bcba7a459ea80871a8eef4a, type: 3}
   secondPiece: {fileID: 7494194221825102711, guid: b8613b734e59cfd438d855d3f90ea61e, type: 3}
-  secondPieceOffset: {x: 0, y: 0}
+  secondPieceOffset: {x: 0.3627242, y: 0.05119752}

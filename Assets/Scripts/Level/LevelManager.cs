@@ -13,8 +13,10 @@ public class LevelManager : MonoBehaviour
 
     private Piece firstPiece;
     private Piece secondPiece = null;
+    private const float secondPieceOffsetMaxDifference = 0.05f;
+    private Vector2 secondPieceOffsetDifference;
 
-    private const float degrees = 500f;
+    private const float degrees = 250f;
 
     private float shiftDownTime;
 
@@ -36,13 +38,57 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void CheckCompletion()
+    private bool CheckSecondPieceOffset()
     {
-        if (firstPiece.CheckRotation() && (secondPiece == null || secondPiece.CheckRotation()))
+        if (secondPiece == null)
+        {
+            return false;
+        }
+        Vector2 offset = secondPiece.transform.position - firstPiece.transform.position;
+        Vector2 difference = levelData.secondPieceOffset - offset;
+        if (Mathf.Abs(difference.x) < secondPieceOffsetMaxDifference
+            && Mathf.Abs(difference.y) < secondPieceOffsetMaxDifference)
+        {
+            secondPieceOffsetDifference = difference;
+            return true;
+        }
+        return false;
+    }
+
+    private IEnumerator MoveToTarget()
+    {
+        float elapsed = 0f;
+        float duration = 1f;
+        Vector3 diffToAdd = new Vector3(secondPieceOffsetDifference.x, secondPieceOffsetDifference.y, 0) / 2;
+        Vector3 firstStart = firstPiece.transform.position;
+        Vector3 firstEnd = firstStart - diffToAdd;
+        Vector3 secondStart = secondPiece.transform.position;
+        Vector3 secondEnd = secondStart + diffToAdd;
+        while (elapsed < duration)
+        {
+            yield return null;
+            elapsed += Time.deltaTime;
+            firstPiece.transform.position = Vector3.Lerp(firstStart, firstEnd, elapsed / duration);
+            secondPiece.transform.position = Vector3.Lerp(secondStart, secondEnd, elapsed / duration);
+        }
+    }
+
+    private bool CheckCompletion()
+    {
+        if (isLevelCompleted)
+        {
+            return true;
+        }
+        bool firstPieceCheck = firstPiece.CheckRotation();
+        bool secondPieceCheck = secondPiece == null || (secondPiece.CheckRotation() && CheckSecondPieceOffset());
+        if (firstPieceCheck && secondPieceCheck)
         {
             isLevelCompleted = true;
             OnLevelCompletion?.Invoke();
+            StartCoroutine(MoveToTarget());
+            return true;
         }
+        return false;
     }
 
     private void MovePieces()
@@ -77,11 +123,10 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (isLevelCompleted)
+        if (CheckCompletion())
         {
             return;
         }
-        CheckCompletion();
         MovePieces();
         CheckSelectionChange();
     }
