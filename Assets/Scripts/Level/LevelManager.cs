@@ -14,7 +14,6 @@ public class LevelManager : MonoBehaviour
     private Piece firstPiece;
     private Piece secondPiece = null;
     private const float secondPieceOffsetMaxDifference = 0.05f;
-    private Vector2 secondPieceOffsetDifference;
 
     private const float degrees = 250f;
 
@@ -49,28 +48,12 @@ public class LevelManager : MonoBehaviour
         if (Mathf.Abs(difference.x) < secondPieceOffsetMaxDifference
             && Mathf.Abs(difference.y) < secondPieceOffsetMaxDifference)
         {
-            secondPieceOffsetDifference = difference;
+            Vector3 displacement = new Vector3(difference.x, difference.y, 0) / 2;
+            firstPiece.targetPosition = firstPiece.transform.position - displacement;
+            secondPiece.targetPosition = secondPiece.transform.position + displacement;
             return true;
         }
         return false;
-    }
-
-    private IEnumerator MoveToTarget()
-    {
-        float elapsed = 0f;
-        float duration = 1f;
-        Vector3 diffToAdd = new Vector3(secondPieceOffsetDifference.x, secondPieceOffsetDifference.y, 0) / 2;
-        Vector3 firstStart = firstPiece.transform.position;
-        Vector3 firstEnd = firstStart - diffToAdd;
-        Vector3 secondStart = secondPiece.transform.position;
-        Vector3 secondEnd = secondStart + diffToAdd;
-        while (elapsed < duration)
-        {
-            yield return null;
-            elapsed += Time.deltaTime;
-            firstPiece.transform.position = Vector3.Lerp(firstStart, firstEnd, elapsed / duration);
-            secondPiece.transform.position = Vector3.Lerp(secondStart, secondEnd, elapsed / duration);
-        }
     }
 
     private bool CheckCompletion()
@@ -85,10 +68,6 @@ public class LevelManager : MonoBehaviour
         {
             isLevelCompleted = true;
             OnLevelCompletion?.Invoke();
-            if (secondPiece != null)
-            {
-                StartCoroutine(MoveToTarget());
-            }
             return true;
         }
         return false;
@@ -111,6 +90,7 @@ public class LevelManager : MonoBehaviour
         firstPiece.transform.rotation = firstPieceRotation;
         secondPiece.transform.rotation = secondPieceRotation;
     }
+
     private void CheckSelectionChange()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))

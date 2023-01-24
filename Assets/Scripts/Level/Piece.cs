@@ -19,6 +19,7 @@ public class Piece : MonoBehaviour
     [SerializeField]
     private TargetRotationsCfg[] targetRotationsCfgs;
     private const float angleMaxDifference = 5f;
+    public Vector3 targetPosition = Vector3.zero;
     private Quaternion targetRotation;
 
     private const float angularSpeed = 30f;
@@ -122,16 +123,19 @@ public class Piece : MonoBehaviour
             rigidbody.AddTorque((Vector3.down * x + Vector3.right * y) * angularSpeed, ForceMode.Acceleration);
         }
     }
-    private IEnumerator RotateToTarget()
+
+    private IEnumerator TranslateAndRotateToTarget()
     {
         float elapsed = 0f;
         float duration = 1f;
+        Vector3 startPosition = transform.position;
         Quaternion startRotation = transform.rotation;
         while (elapsed < duration)
         {
             yield return null;
             elapsed += Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, elapsed / duration);
+            float t = elapsed / duration;
+            transform.SetPositionAndRotation(Vector3.Lerp(startPosition, targetPosition, t), Quaternion.Slerp(startRotation, targetRotation, t));
         }
     }
 
@@ -139,6 +143,6 @@ public class Piece : MonoBehaviour
     {
         isSelected = false;
         rigidbody.angularVelocity = Vector3.zero;
-        StartCoroutine(RotateToTarget());
+        StartCoroutine(TranslateAndRotateToTarget());
     }
 }

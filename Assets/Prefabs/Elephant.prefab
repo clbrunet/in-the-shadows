@@ -151,6 +151,7 @@ MonoBehaviour:
     - 0
     ys:
     - 0
-    - 172.5
+    - 174.5
     zs:
     - 0
+  targetPosition: {x: 0, y: 0, z: 0}
