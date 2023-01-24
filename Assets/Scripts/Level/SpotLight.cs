@@ -25,20 +25,20 @@ public class SpotLight : MonoBehaviour
     {
         float elapsed = 0f;
         float duration = 1f;
-        float start = light.range;
-        float end = start + 10;
+        float start = light.intensity;
+        float end = start * 1.2f;
         while (elapsed < duration)
         {
             yield return null;
             elapsed += Time.deltaTime;
-            light.range = Mathf.Lerp(start, end, elapsed / duration);
+            light.intensity = Mathf.Lerp(start, end, elapsed / duration);
         }
         elapsed = 0f;
         while (elapsed < duration)
         {
             yield return null;
             elapsed += Time.deltaTime;
-            light.range = Mathf.Lerp(end, start, elapsed / duration);
+            light.intensity = Mathf.Lerp(end, start, elapsed / duration);
         }
     }
 

@@ -85,7 +85,10 @@ public class LevelManager : MonoBehaviour
         {
             isLevelCompleted = true;
             OnLevelCompletion?.Invoke();
-            StartCoroutine(MoveToTarget());
+            if (secondPiece != null)
+            {
+                StartCoroutine(MoveToTarget());
+            }
             return true;
         }
         return false;
