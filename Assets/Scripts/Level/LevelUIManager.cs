@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
+public class LevelUIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject gameUI;
     [SerializeField]
+    private GameObject pauseMenu;
+    [SerializeField]
     private GameObject quitLevel;
     [SerializeField]
-    private GameObject pauseMenu;
+    private GameObject optionsUIManager;
 
     private void OnEnable()
     {
@@ -26,6 +28,12 @@ public class UIManager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         quitLevel.SetActive(false);
+        OptionsUIManager.OnBack += OnOptionsBack;
+    }
+
+    private void OnDestroy()
+    {
+        OptionsUIManager.OnBack -= OnOptionsBack;
     }
 
     private void OnLevelCompletion()
@@ -45,6 +53,18 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         gameUI.SetActive(true);
         Time.timeScale = 1f;
+    }
+
+    public void Options()
+    {
+        optionsUIManager.SetActive(true);
+        pauseMenu.SetActive(false);
+    }
+
+    public void OnOptionsBack()
+    {
+        pauseMenu.SetActive(true);
+        optionsUIManager.SetActive(false);
     }
 
     public void QuitLevel()

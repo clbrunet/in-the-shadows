@@ -34,8 +34,8 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void OnOptionsBack()
     {
-        optionsUIManager.SetActive(false);
         gameObject.SetActive(true);
+        optionsUIManager.SetActive(false);
     }
 
     public void Quit()
