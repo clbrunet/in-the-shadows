@@ -8,9 +8,34 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuUIManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject optionsUIManager;
+
+    private void Start()
+    {
+        OptionsUIManager.OnBack += OnOptionsBack;
+    }
+
+    private void OnDestroy()
+    {
+        OptionsUIManager.OnBack -= OnOptionsBack;
+    }
+
     public void Play()
     {
         SceneManager.LoadScene("LevelSelection");
+    }
+
+    public void Options()
+    {
+        optionsUIManager.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
+    public void OnOptionsBack()
+    {
+        optionsUIManager.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     public void Quit()
