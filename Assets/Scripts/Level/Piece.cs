@@ -18,9 +18,11 @@ public class Piece : MonoBehaviour
     private new Rigidbody rigidbody;
     [SerializeField]
     private TargetRotationsCfg[] targetRotationsCfgs;
-    private const float angleMaxDifference = 5f;
+    private const float angleMaxDifference = 6f;
+    [HideInInspector]
     public Vector3 targetPosition = Vector3.zero;
-    private Quaternion targetRotation;
+    [HideInInspector]
+    public Quaternion targetRotation;
 
     private const float angularSpeed = 30f;
     private const float angularDrag = 1f;

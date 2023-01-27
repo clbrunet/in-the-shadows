@@ -40,12 +40,16 @@ public class LevelManager : MonoBehaviour
 
     private bool CheckSecondPieceOffset()
     {
-        Vector2 offset = secondPiece.transform.position - firstPiece.transform.position;
+        Quaternion firstPieceRotation = firstPiece.transform.rotation;
+        firstPiece.transform.rotation = firstPiece.targetRotation;
+        Vector2 offset = firstPiece.transform.InverseTransformPoint(secondPiece.transform.position);
+        firstPiece.transform.rotation = firstPieceRotation;
+
         Vector2 difference = levelData.secondPieceOffset - offset;
         if (Mathf.Abs(difference.x) < secondPieceOffsetMaxDifference
             && Mathf.Abs(difference.y) < secondPieceOffsetMaxDifference)
         {
-            Vector3 displacement = new Vector3(difference.x, difference.y, 0) / 2;
+            Vector3 displacement = new Vector3(difference.x / 2, difference.y / 2, 0);
             firstPiece.targetPosition = firstPiece.transform.position - displacement;
             secondPiece.targetPosition = secondPiece.transform.position + displacement;
             return true;
@@ -59,9 +63,8 @@ public class LevelManager : MonoBehaviour
         {
             return true;
         }
-        bool firstPieceCheck = firstPiece.CheckRotation();
-        bool secondPieceCheck = secondPiece == null || (secondPiece.CheckRotation() && CheckSecondPieceOffset());
-        if (firstPieceCheck && secondPieceCheck)
+        if (firstPiece.CheckRotation() &&
+            (secondPiece == null || (secondPiece.CheckRotation() && CheckSecondPieceOffset())))
         {
             isLevelCompleted = true;
             OnLevelCompletion?.Invoke();
