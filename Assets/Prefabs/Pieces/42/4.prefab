@@ -70,6 +70,7 @@ MonoBehaviour:
     - 0
     zs:
     - 0
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &4837223169172820503
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,7 +83,7 @@ GameObject:
   - component: {fileID: 2090803436123745720}
   - component: {fileID: 1569852637808693368}
   m_Layer: 0
-  m_Name: 4
+  m_Name: 4 Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

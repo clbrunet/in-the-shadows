@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 409296725584450918}
   - component: {fileID: 3906219507692953831}
   m_Layer: 0
-  m_Name: Teapot
+  m_Name: Teapot Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,3 +154,4 @@ MonoBehaviour:
     - 180
     zs:
     - 0
+  targetPosition: {x: 0, y: 0, z: 0}

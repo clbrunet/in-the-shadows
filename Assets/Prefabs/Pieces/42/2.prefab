@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3013202375399415425}
   - component: {fileID: 5731517287538152135}
   m_Layer: 0
-  m_Name: 2
+  m_Name: 2 Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,3 +161,4 @@ MonoBehaviour:
     zs:
     - 0
     - 180
+  targetPosition: {x: 0, y: 0, z: 0}

@@ -31,6 +31,7 @@ public class LevelManager : MonoBehaviour
     {
         firstPiece = Instantiate(levelData.firstPiece);
         firstPiece.isSelected = true;
+        ToolBox.SetLayerRecursively(firstPiece.transform, GetPieceMask(true));
         if (levelData.secondPiece != null)
         {
             secondPiece = Instantiate(levelData.secondPiece);
@@ -39,10 +40,6 @@ public class LevelManager : MonoBehaviour
 
     private bool CheckSecondPieceOffset()
     {
-        if (secondPiece == null)
-        {
-            return false;
-        }
         Vector2 offset = secondPiece.transform.position - firstPiece.transform.position;
         Vector2 difference = levelData.secondPieceOffset - offset;
         if (Mathf.Abs(difference.x) < secondPieceOffsetMaxDifference
@@ -75,7 +72,7 @@ public class LevelManager : MonoBehaviour
 
     private void MovePieces()
     {
-        if (!(secondPiece != null && Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(0)))
+        if (!(Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(0)))
         {
             return;
         }
@@ -91,6 +88,18 @@ public class LevelManager : MonoBehaviour
         secondPiece.transform.rotation = secondPieceRotation;
     }
 
+    private int GetPieceMask(bool isSelected)
+    {
+        if (isSelected)
+        {
+            return LayerMask.NameToLayer("Selected Piece");
+        }
+        else
+        {
+            return LayerMask.NameToLayer("Default");
+        }
+    }
+
     private void CheckSelectionChange()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -100,7 +109,10 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift) && Time.time - shiftDownTime < 0.5f)
         {
             firstPiece.isSelected = !firstPiece.isSelected;
+            ToolBox.SetLayerRecursively(firstPiece.transform, GetPieceMask(firstPiece.isSelected));
             secondPiece.isSelected = !secondPiece.isSelected;
+            ToolBox.SetLayerRecursively(secondPiece.transform, GetPieceMask(secondPiece.isSelected));
+
         }
     }
 
@@ -110,7 +122,10 @@ public class LevelManager : MonoBehaviour
         {
             return;
         }
-        MovePieces();
-        CheckSelectionChange();
+        if (secondPiece != null)
+        {
+            MovePieces();
+            CheckSelectionChange();
+        }
     }
 }
