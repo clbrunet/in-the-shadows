@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
         if (Mathf.Abs(difference.x) < secondPieceOffsetMaxDifference
             && Mathf.Abs(difference.y) < secondPieceOffsetMaxDifference)
         {
-            Vector3 displacement = new Vector3(difference.x / 2, difference.y / 2, 0);
+            Vector3 displacement = new(difference.x / 2, difference.y / 2, 0);
             firstPiece.targetPosition = firstPiece.transform.position - displacement;
             secondPiece.targetPosition = secondPiece.transform.position + displacement;
             return true;
@@ -67,6 +67,11 @@ public class LevelManager : MonoBehaviour
             (secondPiece == null || (secondPiece.CheckRotation() && CheckSecondPieceOffset())))
         {
             isLevelCompleted = true;
+            int nextLevel = PlayerPrefs.GetInt("Next Level", 1);
+            if (levelData.number == nextLevel)
+            {
+                PlayerPrefs.SetInt("Next Level", nextLevel + 1);
+            }
             OnLevelCompletion?.Invoke();
             return true;
         }
