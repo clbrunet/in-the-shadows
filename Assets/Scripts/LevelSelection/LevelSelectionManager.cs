@@ -13,7 +13,7 @@ public class LevelSelectionManager : MonoBehaviour
         int level = 1;
         foreach (LevelSelector levelSelector in levelSelectors.GetComponentsInChildren<LevelSelector>(true))
         {
-            if (level <= nextLevel)
+            if (level <= nextLevel || MainMenuUIManager.gameMode == GameMode.Test)
             {
                 levelSelector.gameObject.SetActive(true);
             }

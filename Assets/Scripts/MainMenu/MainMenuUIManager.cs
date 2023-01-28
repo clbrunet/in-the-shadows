@@ -6,10 +6,18 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameMode
+{
+    Normal,
+    Test,
+}
+
 public class MainMenuUIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject optionsUIManager;
+
+    public static GameMode gameMode;
 
     private void Start()
     {
@@ -21,9 +29,21 @@ public class MainMenuUIManager : MonoBehaviour
         OptionsUIManager.OnBack -= OnOptionsBack;
     }
 
-    public void Play()
+    private void Play()
     {
         SceneManager.LoadScene("LevelSelection");
+    }
+
+    public void PlayNormalMode()
+    {
+        gameMode = GameMode.Normal;
+        Play();
+    }
+
+    public void PlayTestMode()
+    {
+        gameMode = GameMode.Test;
+        Play();
     }
 
     public void Options()

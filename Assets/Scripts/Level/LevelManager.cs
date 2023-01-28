@@ -67,10 +67,13 @@ public class LevelManager : MonoBehaviour
             (secondPiece == null || (secondPiece.CheckRotation() && CheckSecondPieceOffset())))
         {
             isLevelCompleted = true;
-            int nextLevel = PlayerPrefs.GetInt("Next Level", 1);
-            if (levelData.number == nextLevel)
+            if (MainMenuUIManager.gameMode == GameMode.Normal)
             {
-                PlayerPrefs.SetInt("Next Level", nextLevel + 1);
+                int nextLevel = PlayerPrefs.GetInt("Next Level", 1);
+                if (levelData.number == nextLevel)
+                {
+                    PlayerPrefs.SetInt("Next Level", nextLevel + 1);
+                }
             }
             OnLevelCompletion?.Invoke();
             return true;
