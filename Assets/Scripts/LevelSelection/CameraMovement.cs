@@ -11,6 +11,9 @@ public class CameraMovement : MonoBehaviour
     private Vector3 dragVelocity = Vector3.zero;
     private const float dragSmoothTime = 0.1f;
 
+    private Vector2 topLeftBoundary;
+    private Vector2 bottomRightBoundary;
+
     private void Awake()
     {
         camera = GetComponent<Camera>();
@@ -21,6 +24,16 @@ public class CameraMovement : MonoBehaviour
     {
         transform.position = target;
         dragTarget = target;
+    }
+
+    public void SetBoundaries(Vector2 topLeft, Vector2 bottomRight)
+    {
+        topLeftBoundary = topLeft;
+        topLeftBoundary.x -= 4;
+        topLeftBoundary.y += 2;
+        bottomRightBoundary = bottomRight;
+        bottomRightBoundary.x += 4;
+        bottomRightBoundary.y -= 2;
     }
 
     private void LateUpdate()
@@ -36,6 +49,22 @@ public class CameraMovement : MonoBehaviour
         {
             Vector3 difference = dragOrigin - current;
             dragTarget = transform.position + difference;
+            if (dragTarget.x < topLeftBoundary.x)
+            {
+                dragTarget.x = topLeftBoundary.x;
+            }
+            if (dragTarget.x > bottomRightBoundary.x)
+            {
+                dragTarget.x = bottomRightBoundary.x;
+            }
+            if (dragTarget.y > topLeftBoundary.y)
+            {
+                dragTarget.y = topLeftBoundary.y;
+            }
+            if (dragTarget.y < bottomRightBoundary.y)
+            {
+                dragTarget.y = bottomRightBoundary.y;
+            }
         }
         transform.position = Vector3.SmoothDamp(transform.position, dragTarget, ref dragVelocity, dragSmoothTime);
     }

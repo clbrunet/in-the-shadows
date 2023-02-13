@@ -32,5 +32,27 @@ public class LevelSelectionManager : MonoBehaviour
             }
             level++;
         }
+        Vector2 topLeft = new();
+        Vector2 bottomRight = new();
+        foreach (LevelSelector levelSelector in levelSelectors.GetComponentsInChildren<LevelSelector>())
+        {
+            if (levelSelector.transform.position.x < topLeft.x)
+            {
+                topLeft.x = levelSelector.transform.position.x;
+            }
+            if (levelSelector.transform.position.y > topLeft.y)
+            {
+                topLeft.y = levelSelector.transform.position.y;
+            }
+            if (levelSelector.transform.position.x > bottomRight.x)
+            {
+                bottomRight.x = levelSelector.transform.position.x;
+            }
+            if (levelSelector.transform.position.y < bottomRight.y)
+            {
+                bottomRight.y = levelSelector.transform.position.y;
+            }
+        }
+        camera.SetBoundaries(topLeft, bottomRight);
     }
 }
