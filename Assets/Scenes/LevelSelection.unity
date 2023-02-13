@@ -267,6 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSelectors: {fileID: 1891497167}
+  camera: {fileID: 963194229}
 --- !u!4 &216588476
 Transform:
   m_ObjectHideFlags: 0

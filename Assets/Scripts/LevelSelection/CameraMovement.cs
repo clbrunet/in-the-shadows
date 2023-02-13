@@ -17,6 +17,12 @@ public class CameraMovement : MonoBehaviour
         dragTarget = transform.position;
     }
 
+    public void MoveTo(Vector3 target)
+    {
+        transform.position = target;
+        dragTarget = target;
+    }
+
     private void LateUpdate()
     {
         Vector3 mousePosition = Input.mousePosition;
