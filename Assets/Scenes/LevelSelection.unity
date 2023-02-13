@@ -972,7 +972,8 @@ PrefabInstance:
       propertyPath: m_text
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 385826398628290925, guid: 72d0cf904aebeec4ba2724ffd2bbef82, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 72d0cf904aebeec4ba2724ffd2bbef82, type: 3}
 --- !u!4 &2016204675 stripped
 Transform:
@@ -1060,6 +1061,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1891497168}
     m_Modifications:
+    - target: {fileID: 1242944738072102059, guid: 72d0cf904aebeec4ba2724ffd2bbef82, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242944738072102059, guid: 72d0cf904aebeec4ba2724ffd2bbef82, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
     - target: {fileID: 2832840994192749618, guid: 72d0cf904aebeec4ba2724ffd2bbef82, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1116,7 +1125,9 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6894132631482850553, guid: 72d0cf904aebeec4ba2724ffd2bbef82, type: 3}
+    - {fileID: 385826398628290925, guid: 72d0cf904aebeec4ba2724ffd2bbef82, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 72d0cf904aebeec4ba2724ffd2bbef82, type: 3}
 --- !u!4 &619378305349344906 stripped
 Transform:

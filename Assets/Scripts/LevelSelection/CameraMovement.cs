@@ -36,6 +36,28 @@ public class CameraMovement : MonoBehaviour
         bottomRightBoundary.y -= 2;
     }
 
+    public void SetDragTarget(Vector2 value)
+    {
+        dragTarget.x = value.x;
+        if (dragTarget.x < topLeftBoundary.x)
+        {
+            dragTarget.x = topLeftBoundary.x;
+        }
+        if (dragTarget.x > bottomRightBoundary.x)
+        {
+            dragTarget.x = bottomRightBoundary.x;
+        }
+        dragTarget.y = value.y;
+        if (dragTarget.y > topLeftBoundary.y)
+        {
+            dragTarget.y = topLeftBoundary.y;
+        }
+        if (dragTarget.y < bottomRightBoundary.y)
+        {
+            dragTarget.y = bottomRightBoundary.y;
+        }
+    }
+
     private void LateUpdate()
     {
         Vector3 mousePosition = Input.mousePosition;
@@ -48,23 +70,7 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Vector3 difference = dragOrigin - current;
-            dragTarget = transform.position + difference;
-            if (dragTarget.x < topLeftBoundary.x)
-            {
-                dragTarget.x = topLeftBoundary.x;
-            }
-            if (dragTarget.x > bottomRightBoundary.x)
-            {
-                dragTarget.x = bottomRightBoundary.x;
-            }
-            if (dragTarget.y > topLeftBoundary.y)
-            {
-                dragTarget.y = topLeftBoundary.y;
-            }
-            if (dragTarget.y < bottomRightBoundary.y)
-            {
-                dragTarget.y = bottomRightBoundary.y;
-            }
+            SetDragTarget(transform.position + difference);
         }
         transform.position = Vector3.SmoothDamp(transform.position, dragTarget, ref dragVelocity, dragSmoothTime);
     }

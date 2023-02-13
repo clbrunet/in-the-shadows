@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LevelSelectionManager : MonoBehaviour
 {
@@ -54,5 +55,21 @@ public class LevelSelectionManager : MonoBehaviour
             }
         }
         camera.SetBoundaries(topLeft, bottomRight);
+    }
+
+    public void SelectLevelSelector(LevelSelector selectedLevelSelector)
+    {
+        float alpha;
+        foreach (LevelSelector levelSelector in levelSelectors.GetComponentsInChildren<LevelSelector>())
+        {
+            levelSelector.isSelected = false;
+            alpha = levelSelector.nameObject.GetComponent<CanvasRenderer>().GetAlpha();
+            levelSelector.nameObject.GetComponent<TMP_Text>().CrossFadeAlpha(0, alpha, false);
+        }
+        selectedLevelSelector.isSelected = true;
+        alpha = selectedLevelSelector.nameObject.GetComponent<CanvasRenderer>().GetAlpha();
+        selectedLevelSelector.nameObject.GetComponent<TMP_Text>().CrossFadeAlpha(1, 1 - alpha, false);
+
+        camera.SetDragTarget(selectedLevelSelector.transform.position);
     }
 }

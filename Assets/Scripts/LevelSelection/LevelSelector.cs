@@ -2,12 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LevelSelector : MonoBehaviour
 {
+    private LevelSelectionManager levelSelectionManager;
     [SerializeField]
     private LevelDataSO levelData;
     private Vector2 mouseDownPosition;
+    public bool isSelected;
+    public GameObject nameObject;
+
+    private void Awake()
+    {
+        levelSelectionManager = FindObjectOfType<LevelSelectionManager>();
+    }
+
+    private void Start()
+    {
+        nameObject.GetComponent<TMP_Text>().text = levelData.levelName;
+        nameObject.GetComponent<CanvasRenderer>().SetAlpha(0);
+    }
 
     private void OnMouseDown()
     {
@@ -21,6 +36,11 @@ public class LevelSelector : MonoBehaviour
         delta.y = Mathf.Abs(delta.y);
         if (delta.x + delta.y > 10)
         {
+            return;
+        }
+        if (isSelected == false)
+        {
+            levelSelectionManager.SelectLevelSelector(this);
             return;
         }
         LevelManager.levelData = levelData;
