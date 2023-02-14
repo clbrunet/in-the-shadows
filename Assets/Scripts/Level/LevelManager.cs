@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private LevelDataSO defaultLevelData;
     public static LevelDataSO levelData;
+    [SerializeField]
+    private TMP_Text levelNameText;
     private bool isLevelCompleted = false;
     public static Action OnLevelCompletion;
 
@@ -29,6 +32,8 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        levelNameText.text = levelData.levelName;
+
         firstPiece = Instantiate(levelData.firstPiece);
         firstPiece.isSelected = true;
         ToolBox.SetLayerRecursively(firstPiece.transform, GetPieceMask(true));
