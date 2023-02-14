@@ -24,6 +24,8 @@ public class Piece : MonoBehaviour
     [HideInInspector]
     public Quaternion targetRotation;
 
+    [SerializeField]
+    private Vector3 angularScale = Vector3.one;
     private const float angularSpeed = 30f;
     private const float angularDrag = 1f;
     private const float angularDragMax = 10f;
@@ -118,11 +120,11 @@ public class Piece : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            rigidbody.AddTorque((Vector3.forward * y) * angularSpeed, ForceMode.Acceleration);
+            rigidbody.AddTorque(Vector3.Scale(Vector3.forward * y, angularScale) * angularSpeed, ForceMode.Acceleration);
         }
         else
         {
-            rigidbody.AddTorque((Vector3.down * x + Vector3.right * y) * angularSpeed, ForceMode.Acceleration);
+            rigidbody.AddTorque(Vector3.Scale(Vector3.down * x + Vector3.right * y, angularScale) * angularSpeed, ForceMode.Acceleration);
         }
     }
 
