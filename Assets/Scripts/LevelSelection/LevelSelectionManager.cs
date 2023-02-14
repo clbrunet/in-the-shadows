@@ -64,11 +64,11 @@ public class LevelSelectionManager : MonoBehaviour
         {
             levelSelector.isSelected = false;
             alpha = levelSelector.nameObject.GetComponent<CanvasRenderer>().GetAlpha();
-            levelSelector.nameObject.GetComponent<TMP_Text>().CrossFadeAlpha(0, alpha, false);
+            levelSelector.nameObject.GetComponent<TMP_Text>().CrossFadeAlpha(0, alpha / 4, false);
         }
         selectedLevelSelector.isSelected = true;
         alpha = selectedLevelSelector.nameObject.GetComponent<CanvasRenderer>().GetAlpha();
-        selectedLevelSelector.nameObject.GetComponent<TMP_Text>().CrossFadeAlpha(1, 1 - alpha, false);
+        selectedLevelSelector.nameObject.GetComponent<TMP_Text>().CrossFadeAlpha(1, (1 - alpha) / 4, false);
 
         camera.SetDragTarget(selectedLevelSelector.transform.position);
     }
