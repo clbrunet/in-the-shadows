@@ -36,6 +36,14 @@ public class LevelUIManager : MonoBehaviour
         OptionsUIManager.OnBack -= OnOptionsBack;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+    }
+
     private void OnLevelCompletion()
     {
         quitLevel.SetActive(true);
