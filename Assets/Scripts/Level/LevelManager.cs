@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     private Piece secondPiece = null;
     private const float secondPieceOffsetMaxDifference = 0.05f;
 
-    private const float degrees = 100f;
+    private const float rotateAroundSpeed = 1f;
 
     private float shiftDownTime;
 
@@ -92,14 +92,14 @@ public class LevelManager : MonoBehaviour
         {
             return;
         }
-        float x = Input.GetAxis("Mouse X");
-        float y = Input.GetAxis("Mouse Y");
+        float x = Input.GetAxisRaw("Mouse X") / Time.deltaTime;
+        float y = Input.GetAxisRaw("Mouse Y") / Time.deltaTime;
         Quaternion firstPieceRotation = firstPiece.transform.rotation;
         Quaternion secondPieceRotation = secondPiece.transform.rotation;
-        firstPiece.transform.RotateAround(Vector3.zero, Vector3.down, x * degrees * Time.deltaTime);
-        secondPiece.transform.RotateAround(Vector3.zero, Vector3.down, x * degrees * Time.deltaTime);
-        firstPiece.transform.RotateAround(Vector3.zero, Vector3.right, y * degrees * Time.deltaTime);
-        secondPiece.transform.RotateAround(Vector3.zero, Vector3.right, y * degrees * Time.deltaTime);
+        firstPiece.transform.RotateAround(Vector3.zero, Vector3.down, x * rotateAroundSpeed * Time.deltaTime);
+        secondPiece.transform.RotateAround(Vector3.zero, Vector3.down, x * rotateAroundSpeed * Time.deltaTime);
+        firstPiece.transform.RotateAround(Vector3.zero, Vector3.right, y * rotateAroundSpeed * Time.deltaTime);
+        secondPiece.transform.RotateAround(Vector3.zero, Vector3.right, y * rotateAroundSpeed * Time.deltaTime);
         firstPiece.transform.rotation = firstPieceRotation;
         secondPiece.transform.rotation = secondPieceRotation;
     }

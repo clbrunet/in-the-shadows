@@ -24,9 +24,11 @@ public class Piece : MonoBehaviour
     [HideInInspector]
     public Quaternion targetRotation;
 
+    private float x = 0f;
+    private float y = 0f;
     [SerializeField]
     private Vector3 angularScale = Vector3.one;
-    private const float angularSpeed = 5f;
+    private const float angularSpeed = 10f;
     private const float angularDrag = 1f;
     private const float angularDragMax = 10f;
 
@@ -95,6 +97,16 @@ public class Piece : MonoBehaviour
         return false;
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) || !isSelected || !Input.GetMouseButton(0))
+        {
+            return;
+        }
+        x += Input.GetAxisRaw("Mouse X");
+        y += Input.GetAxisRaw("Mouse Y");
+    }
+
     private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.LeftShift))
@@ -106,9 +118,6 @@ public class Piece : MonoBehaviour
         {
             return;
         }
-        float x = Input.GetAxis("Mouse X");
-        float y = Input.GetAxis("Mouse Y");
-
         if (Mathf.Approximately(x, 0f) && Mathf.Approximately(y, 0f))
         {
             rigidbody.angularDrag = Mathf.Min(rigidbody.angularDrag + 1, angularDragMax);
@@ -120,12 +129,14 @@ public class Piece : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            rigidbody.AddTorque(Vector3.Scale(Vector3.forward * y, angularScale) * angularSpeed, ForceMode.Acceleration);
+            rigidbody.AddTorque(Vector3.Scale(Vector3.forward * y, angularScale) * angularSpeed);
         }
         else
         {
-            rigidbody.AddTorque(Vector3.Scale(Vector3.down * x + Vector3.right * y, angularScale) * angularSpeed, ForceMode.Acceleration);
+            rigidbody.AddTorque(Vector3.Scale(Vector3.down * x + Vector3.right * y, angularScale) * angularSpeed);
         }
+        x = 0f;
+        y = 0f;
     }
 
     private IEnumerator TranslateAndRotateToTarget()
