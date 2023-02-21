@@ -10,29 +10,32 @@ public class LevelSelectionManager : MonoBehaviour
     [SerializeField]
     private new CameraMovement camera;
 
-    private void Start()
+    private void SetLevelSelectorsActivation()
     {
+        if (MainMenuUIManager.gameMode == GameMode.Test)
+        {
+            return;
+        }
         int nextLevel = PlayerPrefs.GetInt("Next Level", 1);
         int level = 1;
         foreach (LevelSelector levelSelector in levelSelectors.GetComponentsInChildren<LevelSelector>(true))
         {
-            if (level < nextLevel || MainMenuUIManager.gameMode == GameMode.Test)
+            if (level > nextLevel)
             {
-                levelSelector.gameObject.SetActive(true);
+                levelSelector.gameObject.SetActive(false);
             }
-            else if (level == nextLevel)
+            if (level == nextLevel - 1)
             {
-                levelSelector.gameObject.SetActive(true);
                 Vector3 position = levelSelector.transform.position;
                 position.z = camera.transform.position.z;
                 camera.MoveTo(position);
             }
-            else
-            {
-                levelSelector.gameObject.SetActive(false);
-            }
             level++;
         }
+    }
+
+    private void SetCameraBoundaries()
+    {
         Vector2 topLeft = new();
         Vector2 bottomRight = new();
         foreach (LevelSelector levelSelector in levelSelectors.GetComponentsInChildren<LevelSelector>())
@@ -55,6 +58,12 @@ public class LevelSelectionManager : MonoBehaviour
             }
         }
         camera.SetBoundaries(topLeft, bottomRight);
+    }
+
+    private void Start()
+    {
+        SetLevelSelectorsActivation();
+        SetCameraBoundaries();
     }
 
     public void SelectLevelSelector(LevelSelector selectedLevelSelector)
