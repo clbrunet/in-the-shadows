@@ -26,7 +26,7 @@ public class Piece : MonoBehaviour
 
     [SerializeField]
     private Vector3 angularScale = Vector3.one;
-    private const float angularSpeed = 30f;
+    private const float angularSpeed = 5f;
     private const float angularDrag = 1f;
     private const float angularDragMax = 10f;
 

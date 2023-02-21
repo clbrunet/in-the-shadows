@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     private Piece secondPiece = null;
     private const float secondPieceOffsetMaxDifference = 0.05f;
 
-    private const float degrees = 250f;
+    private const float degrees = 100f;
 
     private float shiftDownTime;
 
