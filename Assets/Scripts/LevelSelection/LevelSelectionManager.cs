@@ -9,6 +9,7 @@ public class LevelSelectionManager : MonoBehaviour
     private GameObject levelSelectors;
     [SerializeField]
     private new CameraMovement camera;
+    public static bool shouldAnimateNextLevelSelector = false;
 
     private void SetLevelSelectorsActivation()
     {
@@ -20,15 +21,20 @@ public class LevelSelectionManager : MonoBehaviour
         int level = 1;
         foreach (LevelSelector levelSelector in levelSelectors.GetComponentsInChildren<LevelSelector>(true))
         {
-            if (level > nextLevel)
-            {
-                levelSelector.gameObject.SetActive(false);
-            }
             if (level == nextLevel - 1)
             {
                 Vector3 position = levelSelector.transform.position;
                 position.z = camera.transform.position.z;
                 camera.MoveTo(position);
+            }
+            if (shouldAnimateNextLevelSelector && level == nextLevel)
+            {
+                levelSelector.GetComponent<Animator>().SetTrigger("Unlock");
+                shouldAnimateNextLevelSelector = false;
+            }
+            if (level > nextLevel)
+            {
+                levelSelector.gameObject.SetActive(false);
             }
             level++;
         }

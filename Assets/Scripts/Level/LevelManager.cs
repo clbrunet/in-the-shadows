@@ -78,6 +78,7 @@ public class LevelManager : MonoBehaviour
                 if (levelData.number == nextLevel)
                 {
                     PlayerPrefs.SetInt("Next Level", nextLevel + 1);
+                    LevelSelectionManager.shouldAnimateNextLevelSelector = true;
                 }
             }
             OnLevelCompletion?.Invoke();
