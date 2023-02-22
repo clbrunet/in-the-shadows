@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum GameMode
 {
@@ -16,8 +18,11 @@ public class MainMenuUIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject optionsUIManager;
-
     public static GameMode gameMode;
+    [SerializeField]
+    private Slider resetProgressSlider;
+    private Coroutine resetProgressCoroutine;
+    private bool hasResetProgress = false;
 
     private void Start()
     {
@@ -56,6 +61,54 @@ public class MainMenuUIManager : MonoBehaviour
     {
         gameObject.SetActive(true);
         optionsUIManager.SetActive(false);
+    }
+
+    public IEnumerator ResetProgress()
+    {
+        float elapsed = 0f;
+        float duration = 2f;
+        float start = resetProgressSlider.minValue;
+        float target = resetProgressSlider.maxValue;
+        while (elapsed < duration)
+        {
+            yield return null;
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            resetProgressSlider.SetValueWithoutNotify(Mathf.Lerp(start, target, t));
+        }
+        resetProgressCoroutine = null;
+        PlayerPrefs.DeleteAll();
+        resetProgressSlider.GetComponentInChildren<TMP_Text>().text = "Reset done";
+        hasResetProgress = true;
+    }
+
+    public void OnSliderPointerDown()
+    {
+        if (hasResetProgress == false)
+        {
+            resetProgressCoroutine = StartCoroutine(ResetProgress());
+        }
+    }
+
+    private void StopResetProgress()
+    {
+        if (resetProgressCoroutine == null)
+        {
+            return;
+        }
+        StopCoroutine(resetProgressCoroutine);
+        resetProgressCoroutine = null;
+        resetProgressSlider.SetValueWithoutNotify(0f);
+    }
+
+    public void OnSliderPointerUp()
+    {
+        StopResetProgress();
+    }
+
+    public void OnSliderPointerExit()
+    {
+        StopResetProgress();
     }
 
     public void Quit()
