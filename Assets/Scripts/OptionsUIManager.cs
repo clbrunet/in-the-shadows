@@ -12,6 +12,14 @@ public class OptionsUIManager : MonoBehaviour
     private TMP_Dropdown resolutionDropdown;
     [SerializeField]
     private Toggle fullscreenToggle;
+    [SerializeField]
+
+    private TMP_Text forwardRotationBind;
+    [SerializeField]
+    private TMP_Text switchMovePiecesBind;
+    [SerializeField]
+    private GameObject keybindPanel;
+    private Action<KeyCode> keybindAction;
 
     public static Action OnBack;
 
@@ -39,6 +47,13 @@ public class OptionsUIManager : MonoBehaviour
         fullscreenToggle.SetIsOnWithoutNotify(Screen.fullScreen);
     }
 
+    private void OnEnable()
+    {
+        forwardRotationBind.text = KeyBinds.ForwardRotation.ToString();
+        switchMovePiecesBind.text = KeyBinds.SwitchMovePieces.ToString();
+        ColorKeybindsText();
+    }
+
     public void OnResolutionValueChange(int value)
     {
         Screen.SetResolution(resolutions[value].width, resolutions[value].height, Screen.fullScreen);
@@ -47,6 +62,64 @@ public class OptionsUIManager : MonoBehaviour
     public void OnFullscreenValueChange(bool value)
     {
         Screen.fullScreen = value;
+    }
+
+    public void OnForwardRotationButtonClick()
+    {
+        keybindPanel.SetActive(true);
+        keybindAction = OnForwardRotationKeybind;
+    }
+
+    public void OnSwitchMovePiecesButtonClick()
+    {
+        keybindPanel.SetActive(true);
+        keybindAction = OnSwitchMovePiecesKeybind;
+    }
+
+    private void ColorKeybindsText()
+    {
+        Color color;
+        if (forwardRotationBind.text == switchMovePiecesBind.text)
+        {
+            color = new(1, 0, 0);
+        }
+        else
+        {
+            color = new(0, 0, 0);
+        }
+        forwardRotationBind.color = color;
+        switchMovePiecesBind.color = color;
+    }
+
+    private void OnForwardRotationKeybind(KeyCode keyCode)
+    {
+        KeyBinds.ForwardRotation = keyCode;
+        forwardRotationBind.text = keyCode.ToString();
+        ColorKeybindsText();
+    }
+
+    private void OnSwitchMovePiecesKeybind(KeyCode keyCode)
+    {
+        KeyBinds.SwitchMovePieces = keyCode;
+        switchMovePiecesBind.text = keyCode.ToString();
+        ColorKeybindsText();
+    }
+
+    private void OnGUI()
+    {
+        if (!keybindPanel.activeInHierarchy)
+        {
+            return;
+        }
+        KeyCode keyCode = Event.current.keyCode;
+        if (keyCode != KeyCode.None)
+        {
+            if (keyCode != KeyCode.Escape)
+            {
+                keybindAction(keyCode);
+            }
+            keybindPanel.SetActive(false);
+        }
     }
 
     public void Back()

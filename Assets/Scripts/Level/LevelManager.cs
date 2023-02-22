@@ -89,7 +89,7 @@ public class LevelManager : MonoBehaviour
 
     private void MovePieces()
     {
-        if (!(Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(0)))
+        if (!(Input.GetKey(KeyBinds.SwitchMovePieces) && Input.GetMouseButton(0)))
         {
             return;
         }
@@ -119,11 +119,11 @@ public class LevelManager : MonoBehaviour
 
     private void CheckSelectionChange()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyBinds.SwitchMovePieces))
         {
             shiftDownTime = Time.time;
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift) && Time.time - shiftDownTime < 0.5f)
+        if (Input.GetKeyUp(KeyBinds.SwitchMovePieces) && Time.time - shiftDownTime < 0.5f)
         {
             firstPiece.isSelected = !firstPiece.isSelected;
             ToolBox.SetLayerRecursively(firstPiece.transform, GetPieceMask(firstPiece.isSelected));

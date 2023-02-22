@@ -99,7 +99,7 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.LeftShift) || !isSelected || !Input.GetMouseButton(0))
+        if (Input.GetKey(KeyBinds.SwitchMovePieces) || !isSelected || !Input.GetMouseButton(0))
         {
             return;
         }
@@ -109,7 +109,7 @@ public class Piece : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyBinds.SwitchMovePieces))
         {
             rigidbody.angularVelocity = Vector3.zero;
             return;
@@ -127,7 +127,7 @@ public class Piece : MonoBehaviour
             rigidbody.angularDrag = angularDrag;
         }
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyBinds.ForwardRotation))
         {
             rigidbody.AddTorque(Vector3.Scale(Vector3.forward * y, angularScale) * angularSpeed);
         }
