@@ -99,7 +99,7 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyBinds.SwitchMovePieces) || !isSelected || !Input.GetMouseButton(0))
+        if (Input.GetKey(KeyBinds.SwitchMovePieces) || !isSelected || !Input.GetMouseButton(0) || Time.timeScale == 0f)
         {
             return;
         }
