@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce93e1c05b94dd247ba070112a4b7463, type: 3}
+  m_Name: 5
+  m_EditorClassIdentifier: 
+  number: 5
+  levelName: Gallus gallus domesticus
+  firstPiece: {fileID: 3338799361059480452, guid: 1b03f6d12f457d7468b3d24bbfb43147, type: 3}
+  secondPiece: {fileID: 0}
+  secondPieceOffset: {x: 0, y: 0}
