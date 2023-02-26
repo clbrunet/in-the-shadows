@@ -11,12 +11,15 @@ public class LevelManager : MonoBehaviour
     public static LevelDataSO levelData;
     [SerializeField]
     private TMP_Text levelNameText;
+    [SerializeField]
+    private TMP_Text levelTutorialText;
     private bool isLevelCompleted = false;
     public static Action OnLevelCompletion;
 
     private Piece firstPiece;
     private Piece secondPiece = null;
     private const float secondPieceOffsetMaxDifference = 0.05f;
+    public static int pathIndex;
 
     private const float rotateAroundSpeed = 1f;
 
@@ -40,6 +43,11 @@ public class LevelManager : MonoBehaviour
         if (levelData.secondPiece != null)
         {
             secondPiece = Instantiate(levelData.secondPiece);
+        }
+        pathIndex = 0;
+        if (levelData.isTutorial)
+        {
+            levelTutorialText.text = levelData.tutorialSentences[pathIndex];
         }
     }
 
@@ -71,10 +79,21 @@ public class LevelManager : MonoBehaviour
         if (firstPiece.CheckRotation() &&
             (secondPiece == null || (secondPiece.CheckRotation() && CheckSecondPieceOffset())))
         {
+            if (levelData.isTutorial)
+            {
+                pathIndex++;
+                levelTutorialText.text = levelData.tutorialSentences[pathIndex]
+                    .Replace("{Forward Rotation}", KeyBinds.ForwardRotation.ToString());
+                if (pathIndex < levelData.pathStepCount)
+                {
+                    firstPiece.OnPathStepCompletion();
+                    return false;
+                }
+            }
             isLevelCompleted = true;
             if (MainMenuUIManager.gameMode == GameMode.Normal)
             {
-                int nextLevel = PlayerPrefs.GetInt("Next Level", 1);
+                int nextLevel = PlayerPrefs.GetInt("Next Level", 0);
                 if (levelData.number == nextLevel)
                 {
                     PlayerPrefs.SetInt("Next Level", nextLevel + 1);

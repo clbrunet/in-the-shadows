@@ -73,7 +73,8 @@ MonoBehaviour:
     - 0
   targetPosition: {x: 0, y: 0, z: 0}
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
-  angularScale: {x: 1, y: 1, z: 1}
+  angularScales:
+  - {x: 1, y: 1, z: 1}
 --- !u!1001 &7643358665977778413
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -72,7 +72,8 @@ MonoBehaviour:
     - 0
   targetPosition: {x: 0, y: 0, z: 0}
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
-  angularScale: {x: 1, y: 1, z: 1}
+  angularScales:
+  - {x: 1, y: 1, z: 1}
 --- !u!1 &4837223169172820503
 GameObject:
   m_ObjectHideFlags: 0

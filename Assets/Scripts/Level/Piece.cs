@@ -16,6 +16,9 @@ public class Piece : MonoBehaviour
     [HideInInspector]
     public bool isSelected = false;
     private new Rigidbody rigidbody;
+    /// <summary>
+    /// If the piece is a tutorial piece, the array describe the path of the tutorial
+    /// </summary>
     [SerializeField]
     private TargetRotationsCfg[] targetRotationsCfgs;
     private const float angleMaxDifference = 6f;
@@ -26,8 +29,11 @@ public class Piece : MonoBehaviour
 
     private float x = 0f;
     private float y = 0f;
+    /// <summary>
+    /// If the piece is a tutorial piece, the array describe the path of the tutorial
+    /// </summary>
     [SerializeField]
-    private Vector3 angularScale = Vector3.one;
+    private Vector3[] angularScales = { Vector3.one };
     private const float angularSpeed = 10f;
     private const float angularDrag = 1f;
     private const float angularDragMax = 10f;
@@ -77,20 +83,30 @@ public class Piece : MonoBehaviour
         }
     }
 
+    public bool CheckTargetRotationsCfg(TargetRotationsCfg targetRotationsCfg)
+    {
+        Match xBestMatch = Match.GetBest(transform.eulerAngles.x, targetRotationsCfg.xs);
+        Match yBestMatch = Match.GetBest(transform.eulerAngles.y, targetRotationsCfg.ys);
+        Match zBestMatch = Match.GetBest(transform.eulerAngles.z, targetRotationsCfg.zs);
+        if ((xBestMatch.difference < angleMaxDifference && yBestMatch.difference < angleMaxDifference && zBestMatch.difference < angleMaxDifference)
+            || xBestMatch.difference + yBestMatch.difference + zBestMatch.difference < angleMaxDifference * 2)
+        {
+            targetRotation = Quaternion.Euler(xBestMatch.target, yBestMatch.target, zBestMatch.target);
+            return true;
+        }
+        return false;
+    }
+
     public bool CheckRotation()
     {
-        float x = transform.eulerAngles.x;
-        float y = transform.eulerAngles.y;
-        float z = transform.eulerAngles.z;
+        if (LevelManager.levelData.isTutorial)
+        {
+            return CheckTargetRotationsCfg(targetRotationsCfgs[LevelManager.pathIndex]);
+        }
         foreach (TargetRotationsCfg targetRotationsCfg in targetRotationsCfgs)
         {
-            Match xBestMatch = Match.GetBest(x, targetRotationsCfg.xs);
-            Match yBestMatch = Match.GetBest(y, targetRotationsCfg.ys);
-            Match zBestMatch = Match.GetBest(z, targetRotationsCfg.zs);
-            if ((xBestMatch.difference < angleMaxDifference && yBestMatch.difference < angleMaxDifference && zBestMatch.difference < angleMaxDifference)
-                || xBestMatch.difference + yBestMatch.difference + zBestMatch.difference < angleMaxDifference * 2)
+            if (CheckTargetRotationsCfg(targetRotationsCfg))
             {
-                targetRotation = Quaternion.Euler(xBestMatch.target, yBestMatch.target, zBestMatch.target);
                 return true;
             }
         }
@@ -129,20 +145,19 @@ public class Piece : MonoBehaviour
 
         if (Input.GetKey(KeyBinds.ForwardRotation))
         {
-            rigidbody.AddTorque(Vector3.Scale(Vector3.forward * y, angularScale) * angularSpeed);
+            rigidbody.AddTorque(Vector3.Scale(Vector3.forward * y, angularScales[LevelManager.pathIndex]) * angularSpeed);
         }
         else
         {
-            rigidbody.AddTorque(Vector3.Scale(Vector3.down * x + Vector3.right * y, angularScale) * angularSpeed);
+            rigidbody.AddTorque(Vector3.Scale(Vector3.down * x + Vector3.right * y, angularScales[LevelManager.pathIndex]) * angularSpeed);
         }
         x = 0f;
         y = 0f;
     }
 
-    private IEnumerator TranslateAndRotateToTarget()
+    private IEnumerator TranslateAndRotateToTarget(float duration)
     {
         float elapsed = 0f;
-        float duration = 1f;
         Vector3 startPosition = transform.position;
         Quaternion startRotation = transform.rotation;
         while (elapsed < duration)
@@ -158,6 +173,12 @@ public class Piece : MonoBehaviour
     {
         isSelected = false;
         rigidbody.angularVelocity = Vector3.zero;
-        StartCoroutine(TranslateAndRotateToTarget());
+        StartCoroutine(TranslateAndRotateToTarget(1f));
+    }
+
+    public void OnPathStepCompletion()
+    {
+        rigidbody.angularVelocity = Vector3.zero;
+        StartCoroutine(TranslateAndRotateToTarget(0.2f));
     }
 }

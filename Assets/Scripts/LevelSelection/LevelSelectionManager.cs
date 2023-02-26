@@ -17,8 +17,8 @@ public class LevelSelectionManager : MonoBehaviour
         {
             return;
         }
-        int nextLevel = PlayerPrefs.GetInt("Next Level", 1);
-        int level = 1;
+        int nextLevel = PlayerPrefs.GetInt("Next Level", 0);
+        int level = 0;
         foreach (LevelSelector levelSelector in levelSelectors.GetComponentsInChildren<LevelSelector>(true))
         {
             if (level == nextLevel - 1)

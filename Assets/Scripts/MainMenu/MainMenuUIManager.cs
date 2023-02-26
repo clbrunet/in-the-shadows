@@ -78,6 +78,7 @@ public class MainMenuUIManager : MonoBehaviour
         }
         resetProgressCoroutine = null;
         PlayerPrefs.DeleteAll();
+        LevelSelectionManager.shouldAnimateNextLevelSelector = false;
         resetProgressSlider.GetComponentInChildren<TMP_Text>().text = "Reset done";
         hasResetProgress = true;
     }
