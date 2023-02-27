@@ -10,10 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce93e1c05b94dd247ba070112a4b7463, type: 3}
-  m_Name: 2
+  m_Name: 6 - Gallus gallus domesticus
   m_EditorClassIdentifier: 
-  number: 2
-  levelName: The largest one
-  firstPiece: {fileID: 1362608219276430015, guid: c02be2e552316864cb01b63f7be163f5, type: 3}
+  number: 6
+  levelName: Gallus gallus domesticus
+  isTutorial: 0
+  pathStepCount: 0
+  tutorialSentences: []
+  firstPiece: {fileID: 3338799361059480452, guid: 1b03f6d12f457d7468b3d24bbfb43147, type: 3}
   secondPiece: {fileID: 0}
   secondPieceOffset: {x: 0, y: 0}

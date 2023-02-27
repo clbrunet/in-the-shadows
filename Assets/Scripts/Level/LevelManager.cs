@@ -47,7 +47,9 @@ public class LevelManager : MonoBehaviour
         pathIndex = 0;
         if (levelData.isTutorial)
         {
-            levelTutorialText.text = levelData.tutorialSentences[pathIndex];
+            levelTutorialText.text = levelData.tutorialSentences[pathIndex]
+                .Replace("{ForwardRotation}", KeyBinds.ForwardRotation.ToString())
+                .Replace("{SwitchMovePieces}", KeyBinds.SwitchMovePieces.ToString());
         }
     }
 
@@ -57,12 +59,22 @@ public class LevelManager : MonoBehaviour
         firstPiece.transform.rotation = firstPiece.targetRotation;
         Vector2 offset = firstPiece.transform.InverseTransformPoint(secondPiece.transform.position);
         firstPiece.transform.rotation = firstPieceRotation;
-
-        Vector2 difference = levelData.secondPieceOffset - offset;
+        Vector2 difference = levelData.secondPieceOffsets[pathIndex] - offset;
         if (Mathf.Abs(difference.x) < secondPieceOffsetMaxDifference
             && Mathf.Abs(difference.y) < secondPieceOffsetMaxDifference)
         {
             Vector3 displacement = new(difference.x / 2, difference.y / 2, 0);
+            bool x_reversed = 90 < firstPiece.transform.eulerAngles.x && firstPiece.transform.eulerAngles.x < 270;
+            bool y_reversed = 90 < firstPiece.transform.eulerAngles.y && firstPiece.transform.eulerAngles.y < 270;
+            bool z_reversed = 90 < firstPiece.transform.eulerAngles.z && firstPiece.transform.eulerAngles.z < 270;
+            if (y_reversed != z_reversed)
+            {
+                displacement.x = -displacement.x;
+            }
+            if (x_reversed != z_reversed)
+            {
+                displacement.y = -displacement.y;
+            }
             firstPiece.targetPosition = firstPiece.transform.position - displacement;
             secondPiece.targetPosition = secondPiece.transform.position + displacement;
             return true;
@@ -83,10 +95,12 @@ public class LevelManager : MonoBehaviour
             {
                 pathIndex++;
                 levelTutorialText.text = levelData.tutorialSentences[pathIndex]
-                    .Replace("{Forward Rotation}", KeyBinds.ForwardRotation.ToString());
+                    .Replace("{ForwardRotation}", KeyBinds.ForwardRotation.ToString())
+                    .Replace("{SwitchMovePieces}", KeyBinds.SwitchMovePieces.ToString());
                 if (pathIndex < levelData.pathStepCount)
                 {
                     firstPiece.OnPathStepCompletion();
+                    secondPiece?.OnPathStepCompletion();
                     return false;
                 }
             }
@@ -112,14 +126,14 @@ public class LevelManager : MonoBehaviour
         {
             return;
         }
-        float x = Input.GetAxisRaw("Mouse X") / Time.deltaTime;
-        float y = Input.GetAxisRaw("Mouse Y") / Time.deltaTime;
+        float x = Input.GetAxisRaw("Mouse X") * rotateAroundSpeed * levelData.rotateAroundScales[pathIndex].x;
+        float y = Input.GetAxisRaw("Mouse Y") * rotateAroundSpeed * levelData.rotateAroundScales[pathIndex].y;
         Quaternion firstPieceRotation = firstPiece.transform.rotation;
         Quaternion secondPieceRotation = secondPiece.transform.rotation;
-        firstPiece.transform.RotateAround(Vector3.zero, Vector3.down, x * rotateAroundSpeed * Time.deltaTime);
-        secondPiece.transform.RotateAround(Vector3.zero, Vector3.down, x * rotateAroundSpeed * Time.deltaTime);
-        firstPiece.transform.RotateAround(Vector3.zero, Vector3.right, y * rotateAroundSpeed * Time.deltaTime);
-        secondPiece.transform.RotateAround(Vector3.zero, Vector3.right, y * rotateAroundSpeed * Time.deltaTime);
+        firstPiece.transform.RotateAround(Vector3.zero, Vector3.down, x);
+        secondPiece.transform.RotateAround(Vector3.zero, Vector3.down, x);
+        firstPiece.transform.RotateAround(Vector3.zero, Vector3.right, y);
+        secondPiece.transform.RotateAround(Vector3.zero, Vector3.right, y);
         firstPiece.transform.rotation = firstPieceRotation;
         secondPiece.transform.rotation = secondPieceRotation;
     }

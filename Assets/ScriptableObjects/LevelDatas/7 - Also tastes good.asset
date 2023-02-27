@@ -10,10 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce93e1c05b94dd247ba070112a4b7463, type: 3}
-  m_Name: 6
+  m_Name: 7 - Also tastes good
   m_EditorClassIdentifier: 
-  number: 6
+  number: 7
   levelName: Also tastes good
+  isTutorial: 0
+  pathStepCount: 0
+  tutorialSentences: []
   firstPiece: {fileID: 1131295918979716365, guid: a0f9d08b448a0e140abce8fc77f70004, type: 3}
   secondPiece: {fileID: 0}
   secondPieceOffset: {x: 0, y: 0}

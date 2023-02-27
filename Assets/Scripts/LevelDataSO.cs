@@ -13,5 +13,6 @@ public class LevelDataSO : ScriptableObject
     public string[] tutorialSentences;
     public Piece firstPiece;
     public Piece secondPiece;
-    public Vector2 secondPieceOffset;
+    public Vector2[] secondPieceOffsets;
+    public Vector2[] rotateAroundScales = { Vector2.one };
 }
