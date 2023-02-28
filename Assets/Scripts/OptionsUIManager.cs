@@ -124,19 +124,17 @@ public class OptionsUIManager : MonoBehaviour
 
     private void OnGUI()
     {
-        if (!keybindPanel.activeInHierarchy)
+        Event currentEvent = Event.current;
+        KeyCode keyCode = currentEvent.keyCode;
+        if (!keybindPanel.activeInHierarchy || !currentEvent.isKey || keyCode == KeyCode.None)
         {
             return;
         }
-        KeyCode keyCode = Event.current.keyCode;
-        if (keyCode != KeyCode.None)
+        if (keyCode != KeyCode.Escape)
         {
-            if (keyCode != KeyCode.Escape)
-            {
-                keybindAction(keyCode);
-            }
-            keybindPanel.SetActive(false);
+            keybindAction(keyCode);
         }
+        keybindPanel.SetActive(false);
     }
 
     public void Back()
