@@ -153,6 +153,10 @@ public class LevelManager : MonoBehaviour
 
     private void CheckSelectionChange()
     {
+        if (!levelData.canSwitchBetweenPieces[pathIndex])
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyBinds.SwitchMovePieces))
         {
             shiftDownTime = Time.time;
