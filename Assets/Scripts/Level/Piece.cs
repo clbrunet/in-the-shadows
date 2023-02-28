@@ -21,7 +21,7 @@ public class Piece : MonoBehaviour
     /// </summary>
     [SerializeField]
     private TargetRotationsCfg[] targetRotationsCfgs;
-    private const float angleMaxDifference = 6f;
+    private const float angleMaxDifference = 12f;
     [HideInInspector]
     public Vector3 targetPosition = Vector3.zero;
     [HideInInspector]

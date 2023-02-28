@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
 
     private Piece firstPiece;
     private Piece secondPiece = null;
-    private const float secondPieceOffsetMaxDifference = 0.05f;
+    private const float secondPieceOffsetMaxDifference = 0.1f;
     public static int pathIndex;
 
     private const float rotateAroundSpeed = 1f;
