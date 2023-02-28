@@ -5,6 +5,7 @@ using TMPro;
 using UnityEditor;
 #endif
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -23,10 +24,19 @@ public class MainMenuUIManager : MonoBehaviour
     private Slider resetProgressSlider;
     private Coroutine resetProgressCoroutine;
     private bool hasResetProgress = false;
+    [SerializeField]
+    private AudioMixer audioMixer;
 
     private void Start()
     {
         OptionsUIManager.OnBack += OnOptionsBack;
+    }
+
+    private void OnEnable()
+    {
+        hasResetProgress = false;
+        resetProgressSlider.SetValueWithoutNotify(0f);
+        resetProgressSlider.GetComponentInChildren<TMP_Text>().text = "Reset data";
     }
 
     private void OnDestroy()
@@ -78,6 +88,7 @@ public class MainMenuUIManager : MonoBehaviour
         }
         resetProgressCoroutine = null;
         PlayerPrefs.DeleteAll();
+        audioMixer.SetFloat("Volume", 0f);
         LevelSelectionManager.shouldAnimateNextLevelSelector = false;
         resetProgressSlider.GetComponentInChildren<TMP_Text>().text = "Reset done";
         hasResetProgress = true;

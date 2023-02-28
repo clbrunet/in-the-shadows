@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class OptionsUIManager : MonoBehaviour
@@ -12,8 +13,13 @@ public class OptionsUIManager : MonoBehaviour
     private TMP_Dropdown resolutionDropdown;
     [SerializeField]
     private Toggle fullscreenToggle;
-    [SerializeField]
 
+    [SerializeField]
+    private AudioMixer audioMixer;
+    [SerializeField]
+    private Slider volumeSlider;
+
+    [SerializeField]
     private TMP_Text forwardRotationBind;
     [SerializeField]
     private TMP_Text switchMovePiecesBind;
@@ -49,6 +55,10 @@ public class OptionsUIManager : MonoBehaviour
 
     private void OnEnable()
     {
+        float volume;
+        audioMixer.GetFloat("Volume", out volume);
+        volumeSlider.SetValueWithoutNotify(Mathf.Pow(10, volume / 20));
+
         forwardRotationBind.text = KeyBinds.ForwardRotation.ToString();
         switchMovePiecesBind.text = KeyBinds.SwitchMovePieces.ToString();
         ColorKeybindsText();
@@ -62,6 +72,13 @@ public class OptionsUIManager : MonoBehaviour
     public void OnFullscreenValueChange(bool value)
     {
         Screen.fullScreen = value;
+    }
+
+    public void OnVolumeValueChange(float value)
+    {
+        float volume = Mathf.Log10(value) * 20;
+        audioMixer.SetFloat("Volume", volume);
+        PlayerPrefs.SetFloat("Volume", volume);
     }
 
     public void OnForwardRotationButtonClick()

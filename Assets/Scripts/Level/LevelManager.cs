@@ -114,6 +114,7 @@ public class LevelManager : MonoBehaviour
                     LevelSelectionManager.shouldAnimateNextLevelSelector = true;
                 }
             }
+            GetComponent<AudioSource>().Play();
             OnLevelCompletion?.Invoke();
             return true;
         }
