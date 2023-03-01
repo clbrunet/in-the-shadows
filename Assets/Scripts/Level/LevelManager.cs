@@ -104,6 +104,10 @@ public class LevelManager : MonoBehaviour
                     return false;
                 }
             }
+            else
+            {
+              levelTutorialText.text = "Congratulations !";
+            }
             isLevelCompleted = true;
             if (MainMenuUIManager.gameMode == GameMode.Normal)
             {
